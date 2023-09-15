@@ -1,9 +1,12 @@
+// This file contains the player class implementations. 
+// There are two derived classes, CPU and Human which from the base player(joueur) class
 #include "jouer.h"
 #include <vector>
 #include <algorithm>
 #include <iostream>
 using namespace std;
 
+// CPU class
 class Cpu : public Jouer{
 
     private:
@@ -15,7 +18,7 @@ class Cpu : public Jouer{
 
     Cpu(string name_in, bool h_in): name(name_in), is_human(h_in){}
 
-
+    // play_rock chooses which rock to play for the CPU
     virtual tuple<int, int, Rock> play_rock(int front, int back){
         cout << "It is CPU " << name << "'s turn\n";
         Rock r = {7,7};
@@ -63,6 +66,7 @@ class Cpu : public Jouer{
         return {front, back, r};
     }// play_rock
 
+    // play_first chooses which rock for the cpu to play if they are the first to play in the round
     virtual Rock play_first(){
         sort(hand.begin(), hand.end());
         Rock r = hand.back();
@@ -71,6 +75,7 @@ class Cpu : public Jouer{
         return r;
     }// play_first
 
+    // sums the total number of each rock in the hand
     virtual int sum_hand(){
         int sum = 0;
         for(auto it:Jouer::hand){
@@ -80,6 +85,7 @@ class Cpu : public Jouer{
         return sum;
     }//sum hand
 
+    // checks to see if there are 5 doubles in the hand
     virtual bool fivedoubles(){
         int doubles = 0;
         for(auto it:Jouer::hand){
@@ -95,6 +101,7 @@ class Cpu : public Jouer{
     
 };// CPU class
 
+// the human class (for human players)
 class Human : public Jouer{
 
     private:
@@ -106,7 +113,7 @@ class Human : public Jouer{
 
     Human(string name_in, bool h_in): name(name_in), is_human(h_in){}
 
-
+    // play_rock allows the human to choose what rock to play, but makes sure they play a valid rock
     virtual tuple<int, int, Rock> play_rock(int front, int back){
         cout << name << ", it is your turn\n";
         Rock r = {7,7};
@@ -202,6 +209,7 @@ class Human : public Jouer{
         return {front, back, r};
     }// play_rock
 
+    // play_first allows the human to choose what cared to play if they are going first in the round
     virtual Rock play_first(){
         size_t index = 0;
         cout << name << ", Here is your hand\n";
@@ -221,6 +229,7 @@ class Human : public Jouer{
         return r;
     }//play_first
 
+    // sums the total number of each rock in the hand
     virtual int sum_hand(){
         int sum = 0;
         for(auto it:Jouer::hand){
@@ -230,6 +239,7 @@ class Human : public Jouer{
         return sum;
     }// sum hand
 
+    // returns true if there are 5 doubles in the hand
     virtual bool fivedoubles(){
         int doubles = 0;
         for(auto it:Jouer::hand){
@@ -246,6 +256,7 @@ class Human : public Jouer{
 
 };// human class
 
+// constructs a new player
 Jouer* Jouer_constructor(string name_in, bool human){
     if(human){
         return new Human(name_in, true);

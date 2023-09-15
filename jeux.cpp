@@ -1,3 +1,4 @@
+// This is the main driver which runs through one game
 #include "jeux.h"
 #include "jouer.h"
 #include <vector>
@@ -8,6 +9,7 @@
 #include <cstdlib>
 using namespace std;
 
+// The main game class
 class Jeux{
 
     private:
@@ -25,6 +27,7 @@ class Jeux{
 
     public:
 
+    // constructor, initializes all member variables
     Jeux(): players(vector<Jouer*>()), rocks(vector<Rock>()) {
         players = {nullptr, nullptr, nullptr, nullptr};
         cout << "Welcome, you are about to begin a new Domino game\n";
@@ -97,6 +100,7 @@ class Jeux{
         }
     }// constructor
 
+    // prints the team and player names
     void print_team(int team){
         if(team == 1){
             cout << "Team 1, " << players[0]->name << " and " << players[2]->name;
@@ -106,6 +110,7 @@ class Jeux{
         }
     }
 
+    // shuffles the rocks
     void shuffle(){
         cout << "Shuffling cards...\n";
         numleft = vector<int>(7, 8);
@@ -135,6 +140,7 @@ class Jeux{
         }
     }// shuffle
 
+    // checks if any players have an empty hand
     bool no_hands_empty(){
         for(auto it:players){
             if(it->hand.empty()){
@@ -144,6 +150,7 @@ class Jeux{
         return true;
     }
 
+    // play6_6 automatically plays the 6|6 rock at the start of a new game
     int play6_6(){
         int ind = 0;
         for(auto it:players){
@@ -162,6 +169,7 @@ class Jeux{
         return -1;
     }
 
+    // if a team of 2 cpu starts round
     int start_cpu(int x, int y){
         sort(players[x]->hand.begin(), players[x]->hand.end());
         sort(players[y]->hand.begin(), players[y]->hand.end());   
@@ -187,6 +195,7 @@ class Jeux{
         }
     }//start cpu
 
+    // if a team of 2 humans starts round
     int start_human(int x, int y){
         cout << "Which player would like to start?\n";
         cout << "Enter 0 for " << players[x]->name << " and 1 for " << players[y]->name << ":\n";
@@ -218,6 +227,7 @@ class Jeux{
         return (i + 1)%4;
     }//start human
 
+    // if a team of 1 human 1 cpu starts round
     int start_cphum(int h, int c){
         auto rh = min_element(players[h]->hand.begin(), players[h]->hand.end());
         auto rc = min_element(players[c]->hand.begin(), players[c]->hand.end());
@@ -252,6 +262,7 @@ class Jeux{
     }//cphum
 
 
+    // start_round starts round by shuffling and distributing rocks
     int start_round(){
         shuffle();
         if(winner > 2){
@@ -291,6 +302,7 @@ class Jeux{
         }
     }//start round
 
+    // empty_hand checks to see if a player of team x has an empty hand (and has therefore won the round)
     void empty_hand(int x){
         if(x == 1){
             if(players[0]->hand.empty()){
@@ -312,6 +324,7 @@ class Jeux{
         }
     }
 
+    // tebla3_la3b is when there are no possible plays left, finds least remaining total sum of rocks in hand
     void tebla3_la3b(){
         cout << "Tebla3 la3b, ";
         cout << "No " << front << "'s or " << back << "'s remaining\n";
@@ -343,6 +356,7 @@ class Jeux{
             round_victory(2);
         }
         else{
+            // "ma7roga" means that there was a tie, so the round is replayed and no team gains points
             cout << "Ma7roga, Team 1 has " << min1 << " and Team 2 has " << min2 << "\n";
             cout << "No points gained by either team\n";
             print_team(1);
@@ -363,6 +377,7 @@ class Jeux{
         }
     }
 
+    // This function stores and prints out info depending on round victor
     void round_victory(int x){
         if(x == 1){
             print_team(1);
@@ -400,6 +415,7 @@ class Jeux{
         }
     }
 
+    // runs through one entire round of a game
     void play_round(){
         cout << "New round beginning\n";
         int s = start_round();
@@ -429,6 +445,7 @@ class Jeux{
         }
     }// play_round;
 
+    // the main game function which runs a game, and at the ends, deletes virtually allocated memory
     void jeux(){
         while((t1points < points_to_win) && (t2points < points_to_win)){
             play_round();

@@ -1,3 +1,5 @@
+// This file includes the implementation for the rock data type. A rock refers to one piece of the dominoes,
+// similar to how a card refers to one card of a card stack
 #include "rock.h"
 using namespace std;
 
@@ -9,6 +11,7 @@ bool Rock::is6_6() const{
     return (top == 6 && bottom == 6);
 }
 
+// less than operator to compare value of rocks (which is subjective, this is just what I chose)
 bool operator<(const Rock &lhs, const Rock &rhs){
     if(rhs.is_double() && !lhs.is_double()){
         return true;
