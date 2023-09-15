@@ -6,10 +6,14 @@ Jeux: Game
 Jouer: Player
 Ma7roga: The round must be replayed
 Tebla3 La3b: The game is closed, meaning there are no possible plays left
-
+	
 I also am referring to the actual domino pieces as "rocks". Think of a rock being analogous to a card in poker.
 A double means the rock has 2 of the same number. So a rock with two 3's would be a double 3.
 A hand is the collection of rocks a player has.
+
+Jouer.cpp and Rock.cpp include the implementations of the player and rock classes respectively.
+
+Jeux.cpp is the driver program which contains the game class.
 
 The basic rules are as follows: 
 There are 28 total rocks, and each of the 4 players gets 7 at the start. If any player has at least 5 doubles in their hand, then the rocks are reshuffled.
